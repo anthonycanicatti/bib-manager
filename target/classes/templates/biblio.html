@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h3>Bibliography Management System</h3>
+
+<form method="post">
+    <p> Author: <input type="text" th:field="${entry.author}"/> </p>
+    <p> Title: <input type="text" th:field="${entry.title}"/> </p>
+    <p> Year: <input type="text" th:field="${entry.year}"/> </p>
+    <p> Journal: <input type="text" th:field="${entry.journal}"/> </p>
+    <p> <input type="submit" value="Add" /> </p>
+</form>
+
+<p>Bibliography Entries:</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Journal</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="ent : ${entries}">
+            <td th:text="${ent.author}"></td>
+            <td th:text="${ent.title}" ></td>
+            <td th:text="${ent.year}"></td>
+            <td th:text="${ent.journal}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
