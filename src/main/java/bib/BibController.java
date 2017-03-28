@@ -24,8 +24,8 @@ public class BibController {
 	public String biblioForm(Model model) {
 
 		// first handle database creation if not already done
-		//jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS bibentries (id SERIAL, title VARCHAR(255), " +
-		//		"author VARCHAR(255), year INTEGER, journal VARCHAR(255))");
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS bibentries (id SERIAL, title VARCHAR(255), " +
+				"author VARCHAR(255), year INTEGER, journal VARCHAR(255))");
 
 		// now retrieve everything in the database
 		List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT title," +
