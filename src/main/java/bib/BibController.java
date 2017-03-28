@@ -65,4 +65,17 @@ public class BibController {
 		return "addEntry";
 	}
 
+	@RequestMapping("/remove")
+	public String remove(@RequestParam Map<String, String> requestParams){
+		String author = requestParams.get("author");
+		String title = requestParams.get("title");
+		int year = Integer.parseInt(requestParams.get("year"));
+		String journal = requestParams.get("journal");
+
+		System.out.println("Requesting to remove: \n\t"+author+"\n\t"+title+
+			"\n\t"+year+"\n\t"+journal);
+
+		return "biblio";
+	}
+
 }
