@@ -17,6 +17,28 @@
 
 <p>Bibliography Entries:</p>
 
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#aabcfe;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;background-color:#e8edff;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#039;background-color:#b9c9fe;}
+.tg .tg-yw4l{vertical-align:top}
+</style>
+<table class="tg">
+    <tr>
+      <th class="tg-yw4l">Author</th>
+      <th class="tg-yw4l">Title</th>
+      <th class="tg-yw4l">Year</th>
+      <th class="tg-yw4l">Journal</th>
+    </tr>
+    <tr th:each="ent : ${entries}">
+        <td class="tg-yw4l" th:text="${ent.author}"></td>
+        <td class="tg-yw4l" th:text="${ent.title}"></td>
+        <td class="tg-yw4l" th:text="${ent.year}"></td>
+        <td class="tg-yw4l" th:text="${ent.journal}"></td>
+    </tr>
+</table>
+
+<!--
 <table class="table">
     <thead>
     <tr>
@@ -35,6 +57,7 @@
         </tr>
     </tbody>
 </table>
+-->
 
 </body>
 </html>
