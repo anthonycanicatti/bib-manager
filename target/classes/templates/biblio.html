@@ -8,6 +8,10 @@
 
 <h3>Bibliography Management System</h3>
 
+<form action="/search" method="get" modelAttribute="query">
+    <p><input type="text" th:field="${query.q}"/>  <input type="submit" value="Search"/></p>
+</form>
+
 <table class="table" border ="1" width="100%" cellpadding="5">
     <thead>
     <tr>

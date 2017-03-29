@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class BibController {
 		}
 
 		model.addAttribute("entries", bibEntries);
+		model.addAttribute("query", new SearchQuery());
 		return "biblio";
 	}
 
@@ -121,4 +123,13 @@ public class BibController {
 
 		return "redirect:/biblio";
 	}
+
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String search(@ModelAttribute("query") SearchQuery query, Model model){
+
+		//model.addAttribute("q", query);
+		System.out.println("search query: "+query.getQ());
+		return "search";
+	}
+
 }
