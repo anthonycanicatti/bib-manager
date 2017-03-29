@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Edit Entry</title>
@@ -8,11 +8,11 @@
 
 <h3>Edit Entry</h3>
 
-<form method="post">
-    <p> Author: <br/> <input type="text" th:value="${author}"/> </p>
-    <p> Title: <br/> <input type="text" th:value="${title}"/> </p>
-    <p> Year: <br/> <input type="text" style="width: 65px" th:value="${year}"/> </p>
-    <p> Journal: <br/> <input type="text" th:value="${journal}"/> </p>
+<form th:action="@{/editSubmit(id=${entry.id})}" method="post" modelAttribute="entry">
+    <p> Author: <br/> <input type="text" path="author" th:field="${entry.author}"/> </p>
+    <p> Title: <br/> <input type="text" path="title" th:field="${entry.title}"/> </p>
+    <p> Year: <br/> <input type="text" style="width: 65px" path="year" th:field="${entry.year}"/> </p>
+    <p> Journal: <br/> <input type="text" path="journal" th:field="${entry.journal}"/> </p>
     <p> <input type="submit" value="Done" /> </p>
 </form>
 <input type="button" value="Cancel" onclick="location.href='/biblio.html'"/>

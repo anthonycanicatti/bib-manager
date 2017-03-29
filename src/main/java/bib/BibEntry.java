@@ -8,6 +8,16 @@ public class BibEntry {
     private String author, title, journal;
     private int year;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
     public String getAuthor() {
         return author;
     }

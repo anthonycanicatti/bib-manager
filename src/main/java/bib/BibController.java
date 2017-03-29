@@ -2,13 +2,10 @@ package bib;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +17,10 @@ public class BibController {
 	final String INSERT = "INSERT INTO bibentries (title, author, year, journal)" +
 			" VALUES (?,?,?,?)";
 	// DELETE query
-	final String DELETE = "DELETE FROM bibentries WHERE title = ? and author = ? " +
-			"and year = ? and journal = ?";
+	final String DELETE = "DELETE FROM bibentries WHERE id = ?";
 	// UPDATE query
 	final String UPDATE = "UPDATE bibentries SET title = ?, author = ?, year = ?, " +
-			"journal = ? WHERE title = ? and author = ? and year = ? and journal = ?";
+			"journal = ? WHERE id = ?";
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -37,8 +33,7 @@ public class BibController {
 				"author VARCHAR(255), year INTEGER, journal VARCHAR(255))");
 
 		// now retrieve everything in the database
-		List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT title," +
-				" author, year, journal from bibentries");
+		List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT * from bibentries");
 
 		ArrayList<BibEntry> bibEntries = new ArrayList<BibEntry>();
 		for(Map<String, Object> map : results){
@@ -46,6 +41,7 @@ public class BibController {
 			String title = (String) map.get("title");
 			int year = Integer.parseInt(map.get("year").toString());
 			String journal = (String) map.get("journal");
+			int id = Integer.parseInt(map.get("id").toString());
 
 			// add the entry to the list
 			BibEntry entry = new BibEntry();
@@ -53,6 +49,7 @@ public class BibController {
 			entry.setTitle(title);
 			entry.setYear(year);
 			entry.setJournal(journal);
+			entry.setId(id);
 			bibEntries.add(entry);
 		}
 
@@ -77,50 +74,51 @@ public class BibController {
 
 	@RequestMapping("/remove")
 	public String remove(@RequestParam Map<String, String> requestParams){
-		String author = requestParams.get("author");
-		String title = requestParams.get("title");
-		int year = Integer.parseInt(requestParams.get("year"));
-		String journal = requestParams.get("journal");
+		int id = Integer.parseInt(requestParams.get("id"));
 
-		System.out.println("Requesting to remove: \n\t"+author+"\n\t"+title+
-			"\n\t"+year+"\n\t"+journal);
-		jdbcTemplate.update(DELETE, title, author, year, journal);
+		System.out.println("*** REMOVING ENTRY ID "+id+" ***");
+		jdbcTemplate.update(DELETE, id);
 
 		return "redirect:/biblio"; // redirect to biblio - dont explicitly return biblio
 	}
 
-	@GetMapping("/edit")
+	@RequestMapping(value="/edit", method=RequestMethod.GET)
 	public String edit(@RequestParam Map<String, String> requestParams, Model model){
 		String author = requestParams.get("author");
 		String title = requestParams.get("title");
 		int year = Integer.parseInt(requestParams.get("year"));
 		String journal = requestParams.get("journal");
-		String queryForId = "SELECT id from bibentries WHERE" +
-				" author = ? and title = ? and year = ?" +
-				" and journal = ?";
+		int id = Integer.parseInt(requestParams.get("id"));
 
-		int id = jdbcTemplate.query(queryForId, new Object[]{author, title, year, journal}, new RowMapper<Integer>() {
-			@Override
-			public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
-				return resultSet.getInt("id");
-			}
-		}).get(0);
+		System.out.println("*** EDITING ENTRY ID "+id+" ***");
+		System.out.println("Params:\n\t"+author+"\n\t"+title+"\n\t"+year+"\n\t"+journal);
+		BibEntry entry = new BibEntry();
+		entry.setId(id);
+		entry.setAuthor(author);
+		entry.setTitle(title);
+		entry.setYear(year);
+		entry.setJournal(journal);
+
+		model.addAttribute("entry", entry);
 		model.addAttribute("id", id);
-		model.addAttribute("author", author);
-		model.addAttribute("title", title);
-		model.addAttribute("year", year);
-		model.addAttribute("journal", journal);
+
 		return "edit";
 	}
 
-	@PostMapping("/edit")
-	public String editSubmit(@RequestParam Map<String, String> requestParams, Model model){
-		String author = requestParams.get("author");
-		String title = requestParams.get("title");
-		int year = Integer.parseInt(requestParams.get("year"));
-		String journal = requestParams.get("journal");
+	@RequestMapping(value="/editSubmit", method=RequestMethod.POST)
+	public String editSubmit(@ModelAttribute("entry") BibEntry entry,
+							 @RequestParam("id") String idParm, Model model){
 
-		//jdbcTemplate.update(UPDATE, )
+		String author = entry.getAuthor();
+		String title = entry.getTitle();
+		int year = entry.getYear();
+		String journal = entry.getJournal();
+		int id = Integer.parseInt(idParm);
+
+		System.out.println("New params:\n\t"+author+"\n\t"+title+"\n\t"+year+"\n\t"+journal);
+		int numRows = jdbcTemplate.update(UPDATE, title, author, year, journal, id);
+		System.out.println("*** EDITED "+numRows+" ROWS ***");
+
 		return "redirect:/biblio";
 	}
 }
