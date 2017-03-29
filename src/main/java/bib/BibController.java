@@ -2,10 +2,13 @@ package bib;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +22,14 @@ public class BibController {
 	// DELETE query
 	final String DELETE = "DELETE FROM bibentries WHERE title = ? and author = ? " +
 			"and year = ? and journal = ?";
+	// UPDATE query
+	final String UPDATE = "UPDATE bibentries SET title = ?, author = ?, year = ?, " +
+			"journal = ? WHERE title = ? and author = ? and year = ? and journal = ?";
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
-	@GetMapping("/biblio")
+	@RequestMapping("/biblio")
 	public String biblioForm(Model model) {
 
 		// first handle database creation if not already done
@@ -50,22 +56,23 @@ public class BibController {
 			bibEntries.add(entry);
 		}
 
-		model.addAttribute("entry", new BibEntry());
 		model.addAttribute("entries", bibEntries);
 		return "biblio";
 	}
 
-	@PostMapping("/biblio")
-	public String biblioSubmit(@ModelAttribute BibEntry entry, Model model){
-		model.addAttribute("entry", entry);
-		//bibEntries.add(entry);
-		String author = entry.getAuthor();
-		String title = entry.getTitle();
-		int year = entry.getYear();
-		String journal = entry.getJournal();
+	@GetMapping("/add")
+	public String addEntry(Model model){
+		model.addAttribute("entry", new BibEntry());
+		return "add";
+	}
 
-		jdbcTemplate.update(INSERT, title, author, year, journal);
-		return "addEntry";
+	@PostMapping("/add")
+	public String addEntry(@ModelAttribute BibEntry entry, Model model){
+		model.addAttribute(entry);
+
+		jdbcTemplate.update(INSERT, entry.getTitle(), entry.getAuthor(),
+				entry.getYear(), entry.getJournal());
+		return "redirect:/biblio"; // redirect to biblio - dont explicitly return biblio
 	}
 
 	@RequestMapping("/remove")
@@ -82,4 +89,38 @@ public class BibController {
 		return "redirect:/biblio"; // redirect to biblio - dont explicitly return biblio
 	}
 
+	@GetMapping("/edit")
+	public String edit(@RequestParam Map<String, String> requestParams, Model model){
+		String author = requestParams.get("author");
+		String title = requestParams.get("title");
+		int year = Integer.parseInt(requestParams.get("year"));
+		String journal = requestParams.get("journal");
+		String queryForId = "SELECT id from bibentries WHERE" +
+				" author = ? and title = ? and year = ?" +
+				" and journal = ?";
+
+		int id = jdbcTemplate.query(queryForId, new Object[]{author, title, year, journal}, new RowMapper<Integer>() {
+			@Override
+			public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+				return resultSet.getInt("id");
+			}
+		}).get(0);
+		model.addAttribute("id", id);
+		model.addAttribute("author", author);
+		model.addAttribute("title", title);
+		model.addAttribute("year", year);
+		model.addAttribute("journal", journal);
+		return "edit";
+	}
+
+	@PostMapping("/edit")
+	public String editSubmit(@RequestParam Map<String, String> requestParams, Model model){
+		String author = requestParams.get("author");
+		String title = requestParams.get("title");
+		int year = Integer.parseInt(requestParams.get("year"));
+		String journal = requestParams.get("journal");
+
+		//jdbcTemplate.update(UPDATE, )
+		return "redirect:/biblio";
+	}
 }

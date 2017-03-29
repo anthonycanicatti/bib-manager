@@ -1,23 +1,14 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Bibliography Manager</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+
 <h3>Bibliography Management System</h3>
 
-<form method="post">
-    <p> Author: <br/> <input type="text" th:field="${entry.author}"/> </p>
-    <p> Title: <br/> <input type="text" th:field="${entry.title}"/> </p>
-    <p> Year: <br/> <input type="text" style="width: 65px" th:field="${entry.year}"/> </p>
-    <p> Journal: <br/> <input type="text" th:field="${entry.journal}"/> </p>
-    <p> <input type="submit" value="Add" /> </p>
-</form>
-
-<p>Bibliography Entries:</p>
-
-<table class="table" border ="1" cellpadding="10">
+<table class="table" border ="1" width="100%" cellpadding="5">
     <thead>
     <tr>
         <th>Author</th>
@@ -32,10 +23,14 @@
             <td th:text="${ent.title}" ></td>
             <td th:text="${ent.year}"></td>
             <td th:text="${ent.journal}"></td>
+            <td> <a th:href="@{/edit(author=${ent.author},title=${ent.title},year=${ent.year},journal=${ent.journal})}">Edit</a></td>
             <td> <a th:href="@{/remove(author=${ent.author},title=${ent.title},year=${ent.year},journal=${ent.journal})}">Delete</a></td>
         </tr>
     </tbody>
 </table>
+
+<br/>
+<input type="button" onclick="location.href='/add.html'" value="Add an Entry"/>
 
 </body>
 </html>

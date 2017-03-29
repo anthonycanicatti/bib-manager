@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Entry</title>
+</head>
+<body>
+<h3>Add an Entry</h3>
+
+<form method="post">
+    <p> Author: <br/> <input type="text" th:field="${entry.author}"/> </p>
+    <p> Title: <br/> <input type="text" th:field="${entry.title}"/> </p>
+    <p> Year: <br/> <input type="text" style="width: 65px" th:field="${entry.year}"/> </p>
+    <p> Journal: <br/> <input type="text" th:field="${entry.journal}"/> </p>
+    <p> <input type="submit" value="Add" /> </p>
+</form>
+<input type="button" value="Cancel" onclick="location.href='/biblio.html'"/>
+
+</body>
+</html>

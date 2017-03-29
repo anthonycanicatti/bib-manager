@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Entry</title>
+</head>
+<body>
+
+<h3>Edit Entry</h3>
+
+<form method="post">
+    <p> Author: <br/> <input type="text" th:value="${author}"/> </p>
+    <p> Title: <br/> <input type="text" th:value="${title}"/> </p>
+    <p> Year: <br/> <input type="text" style="width: 65px" th:value="${year}"/> </p>
+    <p> Journal: <br/> <input type="text" th:value="${journal}"/> </p>
+    <p> <input type="submit" value="Done" /> </p>
+</form>
+<input type="button" value="Cancel" onclick="location.href='/biblio.html'"/>
+
+</body>
+</html>

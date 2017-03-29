@@ -5,12 +5,16 @@
     <title>Added Entry!</title>
 </head>
 <body>
-<h1>Added Bibliography Entry!</h1>
-<p th:text="'Author: ' + ${entry.author}" />
-<p th:text="'Title: ' + ${entry.title}" />
-<p th:text="'Journal: ' + ${entry.journal}" />
-<p th:text="'Year: ' + ${entry.year}" />
+<h3>Add an Entry</h3>
 
-<input type="button" onclick="location.href='/biblio.html'" value ="Back"/>
+<form method="post">
+    <p> Author: <br/> <input type="text" th:field="${entry.author}"/> </p>
+    <p> Title: <br/> <input type="text" th:field="${entry.title}"/> </p>
+    <p> Year: <br/> <input type="text" style="width: 65px" th:field="${entry.year}"/> </p>
+    <p> Journal: <br/> <input type="text" th:field="${entry.journal}"/> </p>
+    <p> <input type="submit" value="Add" /> </p>
+</form>
+<input type="button" value="Cancel" onclick="location.href='/biblio.html'"/>
+
 </body>
 </html>
