@@ -8,5 +8,28 @@
 
 <h3>Search Query: "<span th:text="${query.q}"></span>"</h3>
 
+<table class="table" border ="1" width="100%" cellpadding="5">
+    <thead>
+    <tr>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Journal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ent : ${entries}">
+        <td th:text="${ent.author}"></td>
+        <td th:text="${ent.title}" ></td>
+        <td th:text="${ent.year}"></td>
+        <td th:text="${ent.journal}"></td>
+        <td> <a th:href="@{/edit(author=${ent.author},title=${ent.title},year=${ent.year},journal=${ent.journal},id=${ent.id})}">Edit</a></td>
+        <td> <a th:href="@{/remove(id=${ent.id})}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<input type="button" value="Back" onclick="location.href='/biblio.html'"/>
 </body>
 </html>

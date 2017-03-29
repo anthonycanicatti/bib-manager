@@ -22,6 +22,9 @@ public class BibController {
 	// UPDATE query
 	final String UPDATE = "UPDATE bibentries SET title = ?, author = ?, year = ?, " +
 			"journal = ? WHERE id = ?";
+	// SEARCH query
+	final String SEARCH = "SELECT * FROM bibentries WHERE title = ? OR author = ? OR " +
+			"year = ? OR journal = ?";
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -127,8 +130,28 @@ public class BibController {
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String search(@ModelAttribute("query") SearchQuery query, Model model){
 
-		//model.addAttribute("q", query);
-		System.out.println("search query: "+query.getQ());
+		String term = query.getQ();
+		System.out.println("search query: "+term);
+
+		ArrayList<BibEntry> entries = new ArrayList<BibEntry>();
+		List<Map<String, Object>> results = jdbcTemplate.queryForList(SEARCH, term, term, term, term);
+		for(Map<String, Object> row : results){
+			String author = (String)row.get("author");
+			String title = (String)row.get("title");
+			int year = Integer.parseInt(row.get("year").toString());
+			String journal = (String)row.get("journal");
+			int id = Integer.parseInt(row.get("id").toString());
+
+			BibEntry entry = new BibEntry();
+			entry.setAuthor(author);
+			entry.setTitle(title);
+			entry.setYear(year);
+			entry.setJournal(journal);
+			entry.setId(id);
+			entries.add(entry);
+		}
+		model.addAttribute("entries", entries);
+
 		return "search";
 	}
 
