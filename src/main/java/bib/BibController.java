@@ -14,8 +14,11 @@ import java.util.Map;
 public class BibController {
 
 	// INSERT query
-	String INSERT = "INSERT INTO bibentries (title, author, year, journal)" +
+	final String INSERT = "INSERT INTO bibentries (title, author, year, journal)" +
 			" VALUES (?,?,?,?)";
+	// DELETE query
+	final String DELETE = "DELETE FROM bibentries WHERE title = ? and author = ? " +
+			"and year = ? and journal = ?";
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -74,8 +77,9 @@ public class BibController {
 
 		System.out.println("Requesting to remove: \n\t"+author+"\n\t"+title+
 			"\n\t"+year+"\n\t"+journal);
+		jdbcTemplate.update(DELETE, title, author, year, journal);
 
-		return "biblio";
+		return "redirect:/biblio"; // redirect to biblio - dont explicitly return biblio
 	}
 
 }
