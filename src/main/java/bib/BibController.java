@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,6 @@ public class BibController {
 	// UPDATE query
 	final String UPDATE = "UPDATE bibentries SET title = ?, author = ?, year = ?, " +
 			"journal = ? WHERE id = ?";
-	// SEARCH query
-	final String SEARCH = "SELECT * FROM bibentries WHERE title = ? OR author = ? OR " +
-			"year = ? OR journal = ?";
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -131,10 +127,10 @@ public class BibController {
 	public String search(@ModelAttribute("query") SearchQuery query, Model model){
 
 		String term = query.getQ();
-		System.out.println("search query: "+term);
+		System.out.println("*** SEARCH QUERY: "+term);
 
 		ArrayList<BibEntry> entries = new ArrayList<BibEntry>();
-		List<Map<String, Object>> results = jdbcTemplate.queryForList(SEARCH, term, term, term, term);
+		List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT * FROM bibentries");
 		for(Map<String, Object> row : results){
 			String author = (String)row.get("author");
 			String title = (String)row.get("title");
@@ -148,7 +144,17 @@ public class BibController {
 			entry.setYear(year);
 			entry.setJournal(journal);
 			entry.setId(id);
-			entries.add(entry);
+
+			if(author.toLowerCase().contains(term.toLowerCase()) || title.toLowerCase().contains(term.toLowerCase())
+					|| journal.toLowerCase().contains(term.toLowerCase()))
+				entries.add(entry);
+			try {
+				if(year == Integer.parseInt(term))
+					entries.add(entry);
+			} catch(NumberFormatException nfe){
+				// term was not a number, can safely ignore
+			}
+
 		}
 		model.addAttribute("entries", entries);
 
