@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c38df48-47a1-42a7-9921-9cc6d64e878c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/search.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/search.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bib/BibController.java" afterPath="$PROJECT_DIR$/src/main/java/bib/BibController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,16 +21,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BibController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BibController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/bib/BibController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="53">
-              <caret line="254" column="9" lean-forward="true" selection-start-line="254" selection-start-column="9" selection-end-line="254" selection-end-column="9" />
+            <state relative-caret-position="280">
+              <caret line="196" column="52" lean-forward="false" selection-start-line="196" selection-start-column="52" selection-end-line="196" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1563#1573#0" expanded="true" />
                 <element signature="e#4682#4692#0" expanded="true" />
-                <element signature="method#importFile#0;class#BibController#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -58,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="search.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="search.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/search.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="16" column="24" lean-forward="true" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+            <state relative-caret-position="126">
+              <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -122,9 +121,9 @@
         <option value="$PROJECT_DIR$/src/main/java/bib/SearchQuery.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/biblio.html" />
-        <option value="$PROJECT_DIR$/src/main/java/bib/BibController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/search.html" />
+        <option value="$PROJECT_DIR$/src/main/java/bib/BibController.java" />
       </list>
     </option>
   </component>
@@ -555,7 +554,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -613,7 +611,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -634,7 +631,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -647,7 +643,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -675,7 +670,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -703,7 +697,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -716,7 +709,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -729,7 +721,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -786,7 +777,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -843,7 +833,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -900,7 +889,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1563#1573#0" expanded="true" />
             <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -971,19 +959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bib/BibController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="53">
-          <caret line="254" column="9" lean-forward="true" selection-start-line="254" selection-start-column="9" selection-end-line="254" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1563#1573#0" expanded="true" />
-            <element signature="e#4682#4692#0" expanded="true" />
-            <element signature="method#importFile#0;class#BibController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/edit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -1004,9 +979,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/search.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="16" column="24" lean-forward="true" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+        <state relative-caret-position="126">
+          <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bib/BibController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="196" column="52" lean-forward="false" selection-start-line="196" selection-start-column="52" selection-end-line="196" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1563#1573#0" expanded="true" />
+            <element signature="e#4682#4692#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

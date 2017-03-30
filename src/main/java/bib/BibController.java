@@ -189,10 +189,13 @@ public class BibController {
 							.replace("}","").replace("\"","")
 							.replace(",","");
 				}
-				if(line.trim().startsWith("year"))
-					year = Integer.parseInt(line.replace(",","")
-							.replace("\"", "")
-							.replace(" ", "").split("=")[1]);
+				if(line.trim().startsWith("year")) {
+					String yrLine = "";
+					for(char c : line.toCharArray()){
+						if(Character.isDigit(c)) yrLine += c;
+					}
+					year = Integer.parseInt(yrLine);
+				}
 				if(line.trim().startsWith("journal")) {
 					journal = line.split("=")[1].replace("{", "")
 							.replace("}", "").replace("\"", "")
