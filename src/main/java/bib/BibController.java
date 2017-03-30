@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
@@ -214,5 +216,64 @@ public class BibController {
 		}
 
 		return "redirect:/biblio";
+	}
+
+	@RequestMapping("/export")
+	public void export(@RequestParam Map<String, String> requestParams, HttpServletRequest request,
+						 HttpServletResponse response){
+		String author = requestParams.get("author");
+		String title = requestParams.get("title");
+		int year = Integer.parseInt(requestParams.get("year"));
+		String journal = requestParams.get("journal");
+
+		System.out.println("*** EXPORTING FILE ***");
+		System.out.println("Export params:\n\t"+author+"\n\t"+title+"\n\t"+year+"\n\t"+journal);
+		String path = request.getServletContext().getRealPath("/")  +
+				title.replace(" ", "_") + "_entry.bib";
+		System.out.println("file path: "+path);
+		BibEntry entry = new BibEntry();
+		entry.setAuthor(author);
+		entry.setTitle(title);
+		entry.setYear(year);
+		entry.setJournal(journal);
+
+		createFile(entry, path); // first create the file to download
+		File file = new File(path); // now have a reference to the file
+
+		response.setContentType("application/bib");
+		response.setContentLength((int)file.length());
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
+		response.setHeader(headerKey, headerValue);
+
+		try { // do the actual out writing of the file
+			InputStream in = new FileInputStream(file);
+			org.apache.commons.io.IOUtils.copy(in, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Upon request to export file, first create file
+	 * @param entry the BibEntry information to create file out of
+	 * @param filePath the path to create file for
+	 */
+	private void createFile(BibEntry entry, String filePath){
+		try {
+			FileWriter out = new FileWriter(filePath);
+			out.write("@article{"+entry.getTitle()+"_bibtex,\n");
+			out.write(" author\t\t=\t\""+entry.getAuthor()+"\",\n"); // write author line
+			out.write(" title\t\t=\t\""+entry.getTitle()+"\",\n"); // write title line
+			out.write(" year\t\t=\t"+entry.getYear()+",\n"); // write year line
+			out.write(" journal\t=\t\""+entry.getJournal()+"\"\n"); // write journal line
+			out.write("}"); // finish
+
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
