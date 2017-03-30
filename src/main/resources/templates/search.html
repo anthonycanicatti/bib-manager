@@ -17,6 +17,7 @@
         <th>Journal</th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
         <td th:text="${ent.title}" ></td>
         <td th:text="${ent.year}"></td>
         <td th:text="${ent.journal}"></td>
+        <td> <a th:href="@{/export(author=${ent.author},title=${ent.title},year=${ent.year},journal=${ent.journal})}">Export</a></td>
         <td> <a th:href="@{/edit(author=${ent.author},title=${ent.title},year=${ent.year},journal=${ent.journal},id=${ent.id})}">Edit</a></td>
         <td> <a th:href="@{/remove(id=${ent.id})}">Delete</a></td>
     </tr>
