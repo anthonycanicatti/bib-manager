@@ -5,7 +5,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -161,4 +166,53 @@ public class BibController {
 		return "search";
 	}
 
+	@RequestMapping(value="/fileImport",method=RequestMethod.POST)
+	public String importFile(@RequestParam MultipartFile file, HttpSession session){
+		String fileName = file.getOriginalFilename();
+		System.out.println("*** FILE UPLOAD: "+fileName+" ***");
+
+		try {
+			byte buffer[] = file.getBytes();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+			String line, author = "", title = "", journal = "";
+			int year = 0;
+			while((line = reader.readLine()) != null){
+				if(line.trim().startsWith("author")){
+					author = line.split("=")[1].replace("{","")
+							.replace("}","").replace("\"", "")
+							.replace(",","");
+				}
+				if(line.trim().startsWith("title")){
+					title = line.split("=")[1].replace("{", "")
+							.replace("}","").replace("\"","")
+							.replace(",","");
+				}
+				if(line.trim().startsWith("year"))
+					year = Integer.parseInt(line.replace(",","")
+							.replace("\"", "")
+							.replace(" ", "").split("=")[1]);
+				if(line.trim().startsWith("journal")) {
+					journal = line.split("=")[1].replace("{", "")
+							.replace("}", "").replace("\"", "")
+							.replace(",", "");
+				}
+			}
+			BibEntry entry = new BibEntry();
+			entry.setTitle(title);
+			entry.setAuthor(author);
+			entry.setYear(year);
+			entry.setJournal(journal);
+
+			System.out.println("*** ADDING ENTRY FROM FILE ***");
+			jdbcTemplate.update(INSERT, entry.getTitle(), entry.getAuthor(),
+					entry.getYear(), entry.getJournal());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/biblio";
+	}
 }
