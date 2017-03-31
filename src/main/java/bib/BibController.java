@@ -4,14 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,13 +69,22 @@ public class BibController {
 	}
 
 	@GetMapping("/add")
-	public String addEntry(Model model){
+	public String addEntry(@RequestParam(value="invalid", required = false) String validity, Model model){
 		model.addAttribute("entry", new BibEntry());
+		model.addAttribute("invalid", validity);
 		return "add";
 	}
 
 	@PostMapping("/add")
-	public String addEntry(@ModelAttribute BibEntry entry, Model model){
+	public String addEntry(@Valid @ModelAttribute BibEntry entry,
+						   BindingResult bindingResult, Model model,
+						   RedirectAttributes redirectAttributes){
+
+		if(bindingResult.hasErrors()) {
+			redirectAttributes.addAttribute("invalid","true");
+			return "redirect:/add";
+		}
+
 		model.addAttribute(entry);
 
 		jdbcTemplate.update(INSERT, entry.getTitle(), entry.getAuthor(),

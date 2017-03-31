@@ -12,9 +12,9 @@
     <p> Title: <br/> <input type="text" th:field="${entry.title}"/> </p>
     <p> Year: <br/> <input type="text" style="width: 65px" th:field="${entry.year}"/> </p>
     <p> Journal: <br/> <input type="text" th:field="${entry.journal}"/> </p>
-    <p> <input type="submit" value="Add" /> </p>
+    <p> <input type="submit" value="Add" /> <input type="button" value="Cancel" onclick="location.href='/biblio.html'"/> </p>
 </form>
-<input type="button" value="Cancel" onclick="location.href='/biblio.html'"/>
+<font color="red" th:text="${invalid != null} ? 'Invalid submission!'"></font>
 
 </body>
 </html>
