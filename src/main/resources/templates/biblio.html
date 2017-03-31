@@ -49,5 +49,8 @@
     <input type="file" name="file"/> <input type="submit" value="Upload File"/>
 </form>
 
+<br/>
+<font color="red" th:text="${invalidUpload != null} ? 'Select valid BibTeX (*.bib) file for upload!'"></font>
+
 </body>
 </html>

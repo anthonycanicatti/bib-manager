@@ -36,7 +36,7 @@ public class BibController {
 	JdbcTemplate jdbcTemplate;
 
 	@RequestMapping("/biblio")
-	public String biblioForm(Model model) {
+	public String biblioForm(@RequestParam(value="invalidUpload",required = false) String invUpload, Model model) {
 
 		// first handle database creation if not already done
 		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS bibentries (id SERIAL, title VARCHAR(255), " +
@@ -65,6 +65,7 @@ public class BibController {
 
 		model.addAttribute("entries", bibEntries);
 		model.addAttribute("query", new SearchQuery());
+		model.addAttribute("invalidUpload", invUpload);
 		return "biblio";
 	}
 
@@ -181,8 +182,15 @@ public class BibController {
 	}
 
 	@RequestMapping(value="/fileImport",method=RequestMethod.POST)
-	public String importFile(@RequestParam MultipartFile file, HttpSession session){
+	public String importFile(@RequestParam MultipartFile file, HttpSession session,
+							 RedirectAttributes redirectAttributes){
+
 		String fileName = file.getOriginalFilename();
+		if(!fileName.endsWith(".bib")){ // quit right away if its not a bib file
+			System.out.println("im here");
+			redirectAttributes.addAttribute("invalidUpload","true");
+			return "redirect:/biblio";
+		}
 		System.out.println("*** FILE UPLOAD: "+fileName+" ***");
 
 		try {
