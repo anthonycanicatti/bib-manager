@@ -35,6 +35,13 @@ public class BibController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
+	/**
+	 * Main page mapping
+	 *
+	 * @param invUpload optional parameter for if upload failed
+	 * @param model model to add all data to be displayed on screen
+	 * @return main web page
+	 */
 	@RequestMapping("/biblio")
 	public String biblioForm(@RequestParam(value="invalidUpload",required = false) String invUpload, Model model) {
 
@@ -69,6 +76,13 @@ public class BibController {
 		return "biblio";
 	}
 
+	/**
+	 * Get Mapping for adding entry
+	 *
+	 * @param validity optional parameter if adding entry with invalid input
+	 * @param model adding emtpy data to model
+	 * @return add page
+	 */
 	@GetMapping("/add")
 	public String addEntry(@RequestParam(value="invalid", required = false) String validity, Model model){
 		model.addAttribute("entry", new BibEntry());
@@ -76,6 +90,15 @@ public class BibController {
 		return "add";
 	}
 
+	/**
+	 * Post Mapping for adding an entry
+	 *
+	 * @param entry the populated entry object
+	 * @param bindingResult result of binding the data entered to the object
+	 * @param model the model to add the added entry
+	 * @param redirectAttributes only needed if theres an error in binding result
+	 * @return will redirect to biblio
+	 */
 	@PostMapping("/add")
 	public String addEntry(@Valid @ModelAttribute BibEntry entry,
 						   BindingResult bindingResult, Model model,
@@ -93,6 +116,12 @@ public class BibController {
 		return "redirect:/biblio"; // redirect to biblio - dont explicitly return biblio
 	}
 
+	/**
+	 * Mapping for removing an entry
+	 *
+	 * @param requestParams just an ID param of the entry
+	 * @return will redirect to biblio
+	 */
 	@RequestMapping("/remove")
 	public String remove(@RequestParam Map<String, String> requestParams){
 		int id = Integer.parseInt(requestParams.get("id"));
@@ -103,6 +132,13 @@ public class BibController {
 		return "redirect:/biblio"; // redirect to biblio - dont explicitly return biblio
 	}
 
+	/**
+	 * Get Mapping for initial edit entry request
+	 *
+	 * @param requestParams properties of BibEntry requesting to edit
+	 * @param model model for inserting edited object back into page
+	 * @return edit page
+	 */
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
 	public String edit(@RequestParam Map<String, String> requestParams, Model model){
 		String author = requestParams.get("author");
@@ -126,6 +162,14 @@ public class BibController {
 		return "edit";
 	}
 
+	/**
+	 * Post Mapping upon submitting edits
+	 *
+	 * @param entry the BibEntry object that was edit (attempted)
+	 * @param idParm the ID of the BibEntry (for some reason had to pass separately)
+	 * @param model model not actually needed or used
+	 * @return will redirect to biblio
+	 */
 	@RequestMapping(value="/editSubmit", method=RequestMethod.POST)
 	public String editSubmit(@ModelAttribute("entry") BibEntry entry,
 							 @RequestParam("id") String idParm, Model model){
@@ -143,6 +187,13 @@ public class BibController {
 		return "redirect:/biblio";
 	}
 
+	/**
+	 * Get Mapping for searching the database
+	 *
+	 * @param query the search query object (really just a class wrapper for a string)
+	 * @param model model used for inserting list of results from search back to webpage
+	 * @return search page
+	 */
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String search(@ModelAttribute("query") SearchQuery query, Model model){
 
@@ -181,6 +232,13 @@ public class BibController {
 		return "search";
 	}
 
+	/**
+	 * Post Mapping for importing files
+	 * @param file the file the user selected
+	 * @param session
+	 * @param redirectAttributes attributes needed to send back to redirect (in case file upload failed)
+	 * @return will redirect to biblio
+	 */
 	@RequestMapping(value="/fileImport",method=RequestMethod.POST)
 	public String importFile(@RequestParam MultipartFile file, HttpSession session,
 							 RedirectAttributes redirectAttributes){
@@ -241,6 +299,13 @@ public class BibController {
 		return "redirect:/biblio";
 	}
 
+	/**
+	 * Mapping for exporting files in the database
+	 *
+	 * @param requestParams the parameters passed into the URL (entry info)
+	 * @param request the HTTPServletRequest - needed for path to create file to export
+	 * @param response the HTTPServletResponse - needed to flush file to output (download)
+	 */
 	@RequestMapping("/export")
 	public void export(@RequestParam Map<String, String> requestParams, HttpServletRequest request,
 						 HttpServletResponse response){
@@ -263,7 +328,7 @@ public class BibController {
 		createFile(entry, path); // first create the file to download
 		File file = new File(path); // now have a reference to the file
 
-		response.setContentType("application/bib");
+		response.setContentType("application/bib"); // the file format
 		response.setContentLength((int)file.length());
 		String headerKey = "Content-Disposition";
 		String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
