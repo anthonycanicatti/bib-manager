@@ -245,7 +245,6 @@ public class BibController {
 
 		String fileName = file.getOriginalFilename();
 		if(!fileName.endsWith(".bib")){ // quit right away if its not a bib file
-			System.out.println("im here");
 			redirectAttributes.addAttribute("invalidUpload","true");
 			return "redirect:/biblio";
 		}
